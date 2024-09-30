@@ -4,11 +4,14 @@
         <title>Home Page</title>
     </head>
     <body>
+        <button onclick="location.href='{{url_for('admin_login')}}'">admin</button>
         <center>
+            <div class="homepage-search">
             <h1>Animal Records</h1>
             <label for="location-search">Search for a Location: </label>
-            <input type="search" id="location-search" name="location-search"/>
-            <button>Search</button>
+            <input type="search" id="location-search" name="location-search" placeholder="Search for a Location"/>
+            <button type="button">Search</button>
+            </div>
         </center>
     </body>
 </html>

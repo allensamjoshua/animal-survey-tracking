@@ -1,4 +1,4 @@
-from flask import Flask, redirect, render_template, url_for, session, flash
+from flask import Flask, redirect, render_template, url_for, request, session, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 
@@ -35,9 +35,22 @@ class Admin(db.Model):
 def home():
     return render_template("home.html")
 
-@app.route('/a')
+@app.route('/admin', methods=['GET','POST'])
 def admin_login():
+    if request.method=='POST':
+        uname = request.form['username']
+        pwd = request.form['password']
+        admin = Admin.query.filter_by(username=uname)
+        if admin and bcrypt.check_password_hash(Admin.password,pwd):
+            session['admin']==True
+            return redirect(url_for('admin_dashboard'))
+        else:
+            flash("Invalid Credentials")
+    return render_template('admin_login.html')
+
+@app.route('/admin/admin_dashboard', methods=['GET','POST'])
+def admin_dashboard():
     pass
 
 if __name__ == '__main__':
-    app.run(debug=True)
+   app.run(debug=True)
