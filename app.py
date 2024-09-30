@@ -9,7 +9,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = (
     'mssql+pyodbc:///?odbc_connect=' +
     'DRIVER={ODBC Driver 17 for SQL Server};'
     'SERVER=DESKTOP-6OI45DP\\SQLEXPRESS;'
-    'DATABASE=project_ut;'
+    'DATABASE=ut_project;'
     'Trusted_Connection=yes;'
 )
 
@@ -31,26 +31,29 @@ class Admin(db.Model):
     username = db.Column(db.String(50), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
 
+#homepage 
 @app.route('/')
 def home():
     return render_template("home.html")
 
+#admin login page
 @app.route('/admin', methods=['GET','POST'])
 def admin_login():
     if request.method=='POST':
         uname = request.form['username']
         pwd = request.form['password']
         admin = Admin.query.filter_by(username=uname)
-        if admin and bcrypt.check_password_hash(Admin.password,pwd):
+        if admin and bcrypt.check_password_hash(Admin.password,pwd): #to check if the hashed password matches
             session['admin']==True
             return redirect(url_for('admin_dashboard'))
         else:
             flash("Invalid Credentials")
     return render_template('admin_login.html')
 
+#admin dashboard page
 @app.route('/admin/admin_dashboard', methods=['GET','POST'])
 def admin_dashboard():
-    pass
+    return render_template('admin_dashboard.html')
 
 if __name__ == '__main__':
    app.run(debug=True)
