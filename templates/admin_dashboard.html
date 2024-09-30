@@ -2,10 +2,40 @@
 <html>
     <head>
         <title>Dashboard</title>
+        <link rel="stylesheet" href="/static/styles.css"/>
     </head>
     <body>
+        <center><h2>Indian Wildlife Database</h2></center>
+        <a href="{{url_for('create_record')}}">Create a Record</a>
         <center>
-            <h2>Indian Wildlife Database</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Survey Id</th>
+                        <th>Animal</th>
+                        <th>Location</th>
+                        <th>Count</th>
+                        <th>Survey Date</th>
+                        <th>Surveyor Name</th>
+                        <th>Status</th>
+                        <th>Notes</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for animals in animals %}
+                    <tr>
+                        <td>{{ animals.survey_id }}</td>
+                        <td>{{ animals.animal_name }}</td>
+                        <td>{{ animals.location }}</td>
+                        <td>{{ animals.animal_count }}</td>
+                        <td>{{ animals.survey_date }}</td>
+                        <td>{{ animals.surveyor_name }}</td>
+                        <td>{{ animals.status }}</td>
+                        <td>{{ animals.notes }}</td>
+                        <td><a href="{{url_for('update_record', survey_id = animals.survey_id)}}">Update</a></td>
+                    </tr>   
+                    {% endfor %}
         </center>
     </body>
 </html>

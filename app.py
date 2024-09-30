@@ -22,7 +22,7 @@ class AnimalSurvey(db.Model):
     location = db.Column(db.String(50), nullable=False)
     animal_count = db.Column(db.Integer)
     survey_date = db.Column(db.Date)
-    sureyor_name = db.Column(db.String(50))
+    surveyor_name = db.Column(db.String(50))
     status = db.Column(db.String(50), nullable=False)
     notes = db.Column(db.Text)
 
@@ -42,9 +42,9 @@ def admin_login():
     if request.method=='POST':
         uname = request.form['username']
         pwd = request.form['password']
-        admin = Admin.query.filter_by(username=uname)
-        if admin and bcrypt.check_password_hash(Admin.password,pwd): #to check if the hashed password matches
-            session['admin']==True
+        admin = Admin.query.filter_by(username=uname).first()
+        if admin and bcrypt.check_password_hash(admin.password,pwd): #to check if the hashed password matches
+            session['admin']=True
             return redirect(url_for('admin_dashboard'))
         else:
             flash("Invalid Credentials")
@@ -53,7 +53,19 @@ def admin_login():
 #admin dashboard page
 @app.route('/admin/admin_dashboard', methods=['GET','POST'])
 def admin_dashboard():
-    return render_template('admin_dashboard.html')
+    if 'admin' not in session:
+        return redirect(url_for('admin_login'))
+    
+    animals = AnimalSurvey.query.all()
+    return render_template('admin_dashboard.html', animals=animals)
+
+@app.route('/admin/admin_dashboard/create_record', methods=['GET','POST'])
+def create_record():
+    return render_template('create_record.html')
+
+@app.route('/admin/admin_dashboard/update_record', methods=['GET','POST'])
+def update_record():
+    return render_template('update_record.html')
 
 if __name__ == '__main__':
    app.run(debug=True)
