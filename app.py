@@ -98,9 +98,46 @@ def create_record():
     return render_template('create_record.html')
 
 
-@app.route('/admin/admin_dashboard/update_record', methods=['GET','POST'])
+@app.route('/admin/admin_dashboard/update_record', methods=['GET', 'POST'])
 def update_record():
-    return render_template('update_record.html')
+    if "admin" not in session:
+        return redirect(url_for('admin'))
+    
+    if request.method == 'POST':
+        s_id = request.form['survey_id']
+        exists = AnimalSurvey.query.filter_by(survey_id=s_id).first()
+
+        if exists:
+            # Update fields if provided
+            if request.form['animal_name']:
+                exists.animal_name = request.form['animal_name']
+            if request.form['location']:
+                exists.location = request.form['location']
+            if request.form['animal_count']:
+                exists.animal_count = request.form['animal_count']
+            if request.form['survey_date']:
+                exists.survey_date = request.form['survey_date']
+            if request.form['surveyor_name']:
+                exists.surveyor_name = request.form['surveyor_name']
+            if request.form['status']:
+                exists.status = request.form['status']
+            if request.form['notes']:
+                exists.notes = request.form['notes']
+            
+            db.session.commit()
+            flash("Updated the record")
+            return redirect(url_for('admin_dashboard'))
+        
+        flash("Record does not exist")
+        return redirect(url_for('admin_dashboard'))
+        
+    s_id = request.args.get("survey_id")
+    animal_survey_data = AnimalSurvey.query.filter_by(survey_id=s_id).first()
+    if animal_survey_data:
+        return render_template("update_record.html", animal=animal_survey_data)
+    else:
+        flash("Record does not exist")
+        return redirect(url_for('admin_dashboard'))
 
 if __name__ == '__main__':
    app.run(debug=True)
