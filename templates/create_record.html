@@ -8,6 +8,29 @@
     <body>
         <center>
             <h1>Add Survey Record</h1>
+            <form method="post" action="{{ url_for('create_record') }}">
+                <label for="survey_id">Survey ID: </label>
+                <input type="text" name="survey_id" id="survey_id" required/><br><br>
+                <label for="animal_name">Name of animal: </label>
+                <input type="text" name="animal_name" id="animal_name" required/><br><br>
+                <label for="location">Location of Survey: </label>
+                <input type="text" name="location" id="location" required/><br><br>
+                <label for="animal_count">Count of Animals: </label>
+                <input type="number" name="animal_count" id="animal_count"/><br><br>
+                <label for="survey_date">Surveyed Date: </label>
+                <input type="text" name="survey_date" id="survey_date" placeholder="YYYY-MM-DD" required/><br><br>
+                <label for="surveyor_name">Name of the Surveyor: </label>
+                <input type="text" name="surveyor_name" id="surveyor_name" required/><br><br>
+                <label for="status">Status of the Survey: </label>
+                <select name="status" id="status">
+                    <option value="In Progress">In Progress</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Aborted">Aborted</option>
+                </select><br><br>
+                <label for="notes">Notes: </label>
+                <textarea name="notes" id="notes" rows="5" cols="50"></textarea><br><br>
+                <button type="submit">Create Record</button>
+            </form>
         </center>
     </body>
 </html>

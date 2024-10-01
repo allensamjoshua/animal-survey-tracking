@@ -61,7 +61,42 @@ def admin_dashboard():
 
 @app.route('/admin/admin_dashboard/create_record', methods=['GET','POST'])
 def create_record():
+    if 'admin' not in session:
+        return redirect(url_for('admin'))
+    
+    if request.method == 'POST':
+        s_id = request.form['survey_id']
+        a_name = request.form['animal_name']
+        loc = request.form['location']
+        a_count = request.form['animal_count']
+        s_date = request.form['survey_date']
+        s_name = request.form['surveyor_name']
+        stats = request.form['status']
+        notes = request.form['notes']
+
+        exist = AnimalSurvey.query.filter_by(survey_id = s_id).first()
+        if exist:
+            flash("Survey Id already exists!")
+            return redirect(url_for('admin_dashboard'))
+        
+        else:
+            insert_qry = AnimalSurvey(
+                survey_id = s_id,
+                animal_name = a_name,
+                location = loc,
+                animal_count = a_count,
+                survey_date = s_date,
+                surveyor_name = s_name,
+                status = stats,
+                notes = notes
+            )
+
+            db.session.add(insert_qry)
+            db.session.commit()
+            return redirect(url_for('admin_dashboard'))
+  
     return render_template('create_record.html')
+
 
 @app.route('/admin/admin_dashboard/update_record', methods=['GET','POST'])
 def update_record():
