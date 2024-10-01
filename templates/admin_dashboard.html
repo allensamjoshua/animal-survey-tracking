@@ -33,7 +33,11 @@
                         <td>{{ animals.surveyor_name }}</td>
                         <td>{{ animals.status }}</td>
                         <td>{{ animals.notes }}</td>
-                        <td><a href="{{url_for('update_record', survey_id = animals.survey_id)}}">Update</a></td>
+                        <td><a href="{{url_for('update_record', survey_id = animals.survey_id)}}">Update</a>
+                            <form method="POST" action="{{ url_for('delete_record') }}">
+                                <input type="hidden" name="survey_id" value="{{ animals.survey_id }}">
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form></td>                        
                     </tr>   
                     {% endfor %}
         </center>

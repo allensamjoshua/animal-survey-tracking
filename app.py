@@ -106,7 +106,7 @@ def update_record():
     if request.method == 'POST':
         s_id = request.form['survey_id']
         exists = AnimalSurvey.query.filter_by(survey_id=s_id).first()
-
+    
         if exists:
             # Update fields if provided
             if request.form['animal_name']:
@@ -130,14 +130,22 @@ def update_record():
         
         flash("Record does not exist")
         return redirect(url_for('admin_dashboard'))
-        
-    s_id = request.args.get("survey_id")
-    animal_survey_data = AnimalSurvey.query.filter_by(survey_id=s_id).first()
-    if animal_survey_data:
-        return render_template("update_record.html", animal=animal_survey_data)
-    else:
-        flash("Record does not exist")
-        return redirect(url_for('admin_dashboard'))
+
+@app.route("/admin/admin_dashboard/delete_record", methods=['GET','POST'])
+def delete_record():
+    if "admin" not in session:
+        return redirect(url_for('admin'))
+    
+    if request.method == "POST":
+        s_id = request.form['survey_id']
+        record = AnimalSurvey.query.filter_by(survey_id = s_id).first()
+
+        if record:
+            db.session.delete(record)
+            db.session.commit()
+            flash("Deleted Record Successfully!")
+            return redirect(url_for("admin_dashboard"))
+    
 
 if __name__ == '__main__':
    app.run(debug=True)
