@@ -1,16 +1,54 @@
-<!DOCTYPE HTML> 
+<!-- home.html -->
+<!DOCTYPE HTML>
 <html>
     <head>
         <title>Home Page</title>
+        <link rel="stylesheet" href="/static/styles.css"/>
     </head>
     <body>
-        <button onclick="location.href='{{url_for('admin_login')}}'">admin</button>
+        <button onclick="location.href='{{url_for('admin_login')}}'">Admin</button>
         <center>
             <div class="homepage-search">
-            <h1>Animal Records</h1>
-            <label for="location-search">Search for a Location: </label>
-            <input type="search" id="location-search" name="location-search" placeholder="Search for a Location"/>
-            <button type="button">Search</button>
+                <h1>Animal Records</h1>
+                <form method="GET" action="{{ url_for('home') }}">
+                    <label for="location-search">Search for a Location: </label>
+                    <input type="search" id="location-search" name="query" placeholder="Search for a Location" value="{{ request.args.get('query', '') }}" />
+                    <button type="submit">Search</button><br>
+                </form>
+            </div>
+
+            <div class="search-results">
+                {% if results %}
+                    <h3>Search Results "{{ query }}"</h3>
+                    <table border="1" cellpadding="10">
+                        <thead>
+                            <tr>
+                                <th>Animal Name</th>
+                                <th>Location</th>
+                                <th>Animal Count</th>
+                                <th>Survey Date</th>
+                                <th>Surveyor Name</th>
+                                <th>Status</th>
+                                <th>Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for result in results %}
+                                <tr>
+                                    <td>{{ result.animal_name }}</td>
+                                    <td>{{ result.location }}</td>
+                                    <td>{{ result.animal_count }}</td>
+                                    <td>{{ result.survey_date }}</td>
+                                    <td>{{ result.surveyor_name }}</td>
+                                    <td>{{ result.status }}</td>
+                                    <td>{{ result.notes }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% elif query %}
+                    <p>No results found for "{{ query }}".</p>
+                {% endif %}
             </div>
         </center>
     </body>

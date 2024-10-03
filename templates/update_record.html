@@ -6,7 +6,7 @@
 <body>
     <center>
         <h1>Update Survey Record</h1>
-        <form method="post" action="{{ url_for('update_record') }}">
+        <form method="post" action="{{ url_for('update_record', survey_id=animal.survey_id) }}">
             <label for="survey_id">Survey ID: </label>
             <input type="text" name="survey_id" id="survey_id" value="{{ animal.survey_id }}" readonly/><br><br>
             <label for="animal_name">Name of animal: </label>

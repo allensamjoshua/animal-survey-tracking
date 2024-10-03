@@ -32,9 +32,15 @@ class Admin(db.Model):
     password = db.Column(db.String(60), nullable=False)
 
 #homepage 
-@app.route('/')
+@app.route('/', methods=['GET'])
 def home():
-    return render_template("home.html")
+    query = request.args.get('query', '')  # Get the search query from the URL
+    results = []
+    
+    if query:
+        results = AnimalSurvey.query.filter(AnimalSurvey.location.ilike(f'%{query}%')).all()
+    
+    return render_template("home.html", results=results, query=query)
 
 #admin login page
 @app.route('/admin', methods=['GET','POST'])
@@ -98,15 +104,14 @@ def create_record():
     return render_template('create_record.html')
 
 
-@app.route('/admin/admin_dashboard/update_record', methods=['GET', 'POST'])
-def update_record():
+@app.route('/admin/admin_dashboard/update_record/<int:survey_id>', methods=['GET', 'POST'])
+def update_record(survey_id):
     if "admin" not in session:
         return redirect(url_for('admin'))
     
-    if request.method == 'POST':
-        s_id = request.form['survey_id']
-        exists = AnimalSurvey.query.filter_by(survey_id=s_id).first()
+    exists = AnimalSurvey.query.filter_by(survey_id=survey_id).first()
     
+    if request.method == 'POST':
         if exists:
             # Update fields if provided
             if request.form['animal_name']:
@@ -130,6 +135,14 @@ def update_record():
         
         flash("Record does not exist")
         return redirect(url_for('admin_dashboard'))
+
+    # For GET request, render the form with existing data
+    if exists:
+        return render_template('update_record.html', animal=exists)
+    
+    flash("Record does not exist")
+    return redirect(url_for('admin_dashboard'))
+
 
 @app.route("/admin/admin_dashboard/delete_record", methods=['GET','POST'])
 def delete_record():
