@@ -1,4 +1,4 @@
-from flask import Flask, redirect, render_template, url_for, request, session, flash
+from flask import Flask, redirect, render_template, url_for, request, session, flash, make_response
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 
@@ -31,7 +31,7 @@ class Admin(db.Model):
     username = db.Column(db.String(50), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
 
-#homepage 
+# Homepage 
 @app.route('/', methods=['GET'])
 def home():
     query = request.args.get('query', '')  # Get the search query from the URL
@@ -42,21 +42,21 @@ def home():
     
     return render_template("home.html", results=results, query=query)
 
-#admin login page
+# Admin login page
 @app.route('/admin', methods=['GET','POST'])
 def admin_login():
-    if request.method=='POST':
+    if request.method == 'POST':
         uname = request.form['username']
         pwd = request.form['password']
         admin = Admin.query.filter_by(username=uname).first()
-        if admin and bcrypt.check_password_hash(admin.password,pwd): #to check if the hashed password matches
-            session['admin']=True
+        if admin and bcrypt.check_password_hash(admin.password, pwd):  # Check if the hashed password matches
+            session['admin'] = True  # Set session variable upon successful login
             return redirect(url_for('admin_dashboard'))
         else:
             flash("Invalid Credentials")
     return render_template('admin_login.html')
 
-#admin dashboard page
+# Admin dashboard page
 @app.route('/admin/admin_dashboard', methods=['GET','POST'])
 def admin_dashboard():
     if 'admin' not in session:
@@ -68,7 +68,7 @@ def admin_dashboard():
 @app.route('/admin/admin_dashboard/create_record', methods=['GET','POST'])
 def create_record():
     if 'admin' not in session:
-        return redirect(url_for('admin'))
+        return redirect(url_for('admin_login'))
     
     if request.method == 'POST':
         s_id = request.form['survey_id']
@@ -80,34 +80,34 @@ def create_record():
         stats = request.form['status']
         notes = request.form['notes']
 
-        exist = AnimalSurvey.query.filter_by(survey_id = s_id).first()
+        exist = AnimalSurvey.query.filter_by(survey_id=s_id).first()
         if exist:
             flash("Survey Id already exists!")
             return redirect(url_for('admin_dashboard'))
         
         else:
             insert_qry = AnimalSurvey(
-                survey_id = s_id,
-                animal_name = a_name,
-                location = loc,
-                animal_count = a_count,
-                survey_date = s_date,
-                surveyor_name = s_name,
-                status = stats,
-                notes = notes
+                survey_id=s_id,
+                animal_name=a_name,
+                location=loc,
+                animal_count=a_count,
+                survey_date=s_date,
+                surveyor_name=s_name,
+                status=stats,
+                notes=notes
             )
 
             db.session.add(insert_qry)
             db.session.commit()
+            flash("New Record Added")
             return redirect(url_for('admin_dashboard'))
   
     return render_template('create_record.html')
 
-
 @app.route('/admin/admin_dashboard/update_record/<int:survey_id>', methods=['GET', 'POST'])
 def update_record(survey_id):
     if "admin" not in session:
-        return redirect(url_for('admin'))
+        return redirect(url_for('admin_login'))
     
     exists = AnimalSurvey.query.filter_by(survey_id=survey_id).first()
     
@@ -143,22 +143,25 @@ def update_record(survey_id):
     flash("Record does not exist")
     return redirect(url_for('admin_dashboard'))
 
-
-@app.route("/admin/admin_dashboard/delete_record", methods=['GET','POST'])
+@app.route("/admin/admin_dashboard/delete_record", methods=['POST'])
 def delete_record():
     if "admin" not in session:
-        return redirect(url_for('admin'))
+        return redirect(url_for('admin_login'))
     
     if request.method == "POST":
         s_id = request.form['survey_id']
-        record = AnimalSurvey.query.filter_by(survey_id = s_id).first()
+        record = AnimalSurvey.query.filter_by(survey_id=s_id).first()
 
         if record:
             db.session.delete(record)
             db.session.commit()
             flash("Deleted Record Successfully!")
             return redirect(url_for("admin_dashboard"))
-    
+
+@app.route('/admin/admin_dashboard/logout', methods=['GET'])
+def logout():
+    session.pop('admin', None)  # Remove the admin session
+    return redirect(url_for('home'))  # Redirect to the homepage or login page
 
 if __name__ == '__main__':
    app.run(debug=True)

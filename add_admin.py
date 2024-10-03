@@ -33,8 +33,7 @@ def admin_signup():
         db.session.add(admin_add)
         db.session.commit()
         flash("Admin Created")
-        return redirect(url_for('admin_signup'))
-    
+            
     return render_template("create_admin.html")
 
 if __name__ == '__main__':

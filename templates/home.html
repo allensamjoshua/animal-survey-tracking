@@ -1,4 +1,3 @@
-<!-- home.html -->
 <!DOCTYPE HTML>
 <html>
     <head>
@@ -6,13 +5,15 @@
         <link rel="stylesheet" href="/static/styles.css"/>
     </head>
     <body>
+        <div class="top-right">
         <button onclick="location.href='{{url_for('admin_login')}}'">Admin</button>
-        <center>
+        </div>
+        <div class="center">
             <div class="homepage-search">
                 <h1>Animal Records</h1>
                 <form method="GET" action="{{ url_for('home') }}">
                     <label for="location-search">Search for a Location: </label>
-                    <input type="search" id="location-search" name="query" placeholder="Search for a Location" value="{{ request.args.get('query', '') }}" />
+                    <input type="search" id="location-search" name="query" placeholder="Search for a Location(Ex:Tamil Nadu)" value="{{ request.args.get('query', '') }}" />
                     <button type="submit">Search</button><br>
                 </form>
             </div>
@@ -20,7 +21,7 @@
             <div class="search-results">
                 {% if results %}
                     <h3>Search Results "{{ query }}"</h3>
-                    <table border="1" cellpadding="10">
+                    <table>
                         <thead>
                             <tr>
                                 <th>Animal Name</th>
@@ -50,6 +51,6 @@
                     <p>No results found for "{{ query }}".</p>
                 {% endif %}
             </div>
-        </center>
+        </div>
     </body>
 </html>

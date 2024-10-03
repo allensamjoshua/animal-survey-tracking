@@ -1,4 +1,90 @@
-table, th, td {
-  border: 1px solid black;
+/* General Styles */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #e0f7fa;
+  color: #2c3e50;
+  margin: 0;
+  padding: 20px;
+  text-align: center;
+}
+
+h1, h2 {
+  color: #2e7d32;
+}
+
+button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 10px;
+}
+
+button:hover {
+  background-color: #388e3c;
+}
+
+/* Form Styles */
+form {
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #f9fbe7;
+  border: 1px solid #4caf50;
+  border-radius: 10px;
+  width: 300px; /* Fixed width for consistency */
+}
+
+input, select, textarea {
+  width: calc(100% - 20px); /* Adjusted for padding */
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #4caf50;
+  border-radius: 5px;
+}
+
+/* Table Styles */
+table {
+  width: 90%;
+  margin: 20px auto;
   border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid #4caf50;
+  padding: 8px;
+  text-align: center;
+}
+
+th {
+  background-color: #81c784;
+  color: white;
+}
+
+tr:nth-child(even) {
+  background-color: #f1f8e9;
+}
+
+tr:hover {
+  background-color: #dcedc8;
+}
+
+/* Center Alignment */
+.center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.top-right {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+}
+
+.top-left {
+  position: absolute;
+  top: 10px;
+  right: 20px;
 }

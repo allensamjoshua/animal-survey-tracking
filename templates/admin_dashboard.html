@@ -1,45 +1,68 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Dashboard</title>
-        <link rel="stylesheet" href="/static/styles.css"/>
-    </head>
-    <body>
-        <center><h2>Indian Wildlife Database</h2></center>
-        <a href="{{url_for('create_record')}}">Create a Record</a>
-        <center>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Survey Id</th>
-                        <th>Animal</th>
-                        <th>Location</th>
-                        <th>Count</th>
-                        <th>Survey Date</th>
-                        <th>Surveyor Name</th>
-                        <th>Status</th>
-                        <th>Notes</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for animals in animals %}
-                    <tr>
-                        <td>{{ animals.survey_id }}</td>
-                        <td>{{ animals.animal_name }}</td>
-                        <td>{{ animals.location }}</td>
-                        <td>{{ animals.animal_count }}</td>
-                        <td>{{ animals.survey_date }}</td>
-                        <td>{{ animals.surveyor_name }}</td>
-                        <td>{{ animals.status }}</td>
-                        <td>{{ animals.notes }}</td>
-                        <td><a href="{{url_for('update_record', survey_id = animals.survey_id)}}">Update</a>
-                            <form method="POST" action="{{ url_for('delete_record') }}">
-                                <input type="hidden" name="survey_id" value="{{ animals.survey_id }}">
-                                <button type="submit" class="btn btn-danger">Delete</button>
-                            </form></td>                        
-                    </tr>   
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/static/styles.css"/>
+</head>
+<body>
+    <div class="top-right">
+        <a href="{{ url_for('logout') }}">
+            <button>Logout</button>
+        </a>
+    </div>
+    <div class="center">
+        <h2>Indian Wildlife Database</h2>
+        <a href="{{ url_for('create_record') }}">
+            <button>Create a Record</button>
+        </a>
+        <table>
+            <thead>
+                <tr>
+                    <th>Survey Id</th>
+                    <th>Animal</th>
+                    <th>Location</th>
+                    <th>Count</th>
+                    <th>Survey Date</th>
+                    <th>Surveyor Name</th>
+                    <th>Status</th>
+                    <th>Notes</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for animals in animals %}
+                <tr>
+                    <td>{{ animals.survey_id }}</td>
+                    <td>{{ animals.animal_name }}</td>
+                    <td>{{ animals.location }}</td>
+                    <td>{{ animals.animal_count }}</td>
+                    <td>{{ animals.survey_date }}</td>
+                    <td>{{ animals.surveyor_name }}</td>
+                    <td>{{ animals.status }}</td>
+                    <td>{{ animals.notes }}</td>
+                    <td>
+                        <a href="{{ url_for('update_record', survey_id=animals.survey_id) }}">
+                            <button>Update</button>
+                        </a>
+                        <a href="{{ url_for('delete_record', survey_id=animals.survey_id) }}" onclick="return confirm('Are you sure you want to delete this record?');">
+                            <button>Delete</button>
+                        </a>
+                    </td>                        
+                </tr>   
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for message in messages %}
+                        <div class="flash-message">{{ message }}</div>
                     {% endfor %}
-        </center>
-    </body>
+                </div>
+            {% endif %}
+        {% endwith %}
+    </div>
+</body>
 </html>
