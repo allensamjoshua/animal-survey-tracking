@@ -1,4 +1,4 @@
-from flask import Flask, redirect, render_template, url_for, request, session, flash, make_response
+from flask import Flask, redirect, render_template, url_for, request, session, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 
@@ -143,20 +143,19 @@ def update_record(survey_id):
     flash("Record does not exist")
     return redirect(url_for('admin_dashboard'))
 
-@app.route("/admin/admin_dashboard/delete_record", methods=['POST'])
-def delete_record():
+@app.route("/admin/admin_dashboard/delete_record/<int:survey_id>", methods=['GET', 'POST'])
+def delete_record(survey_id):
     if "admin" not in session:
         return redirect(url_for('admin_login'))
     
-    if request.method == "POST":
-        s_id = request.form['survey_id']
-        record = AnimalSurvey.query.filter_by(survey_id=s_id).first()
-
-        if record:
-            db.session.delete(record)
-            db.session.commit()
-            flash("Deleted Record Successfully!")
-            return redirect(url_for("admin_dashboard"))
+    record = AnimalSurvey.query.filter_by(survey_id=survey_id).first()
+    
+    if record:
+        db.session.delete(record)
+        db.session.commit()
+        flash("Deleted Record Successfully!")
+    
+    return redirect(url_for("admin_dashboard"))
 
 @app.route('/admin/admin_dashboard/logout', methods=['GET'])
 def logout():
