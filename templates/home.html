@@ -25,22 +25,26 @@
                         <thead>
                             <tr>
                                 <th>Animal Name</th>
-                                <th>Location</th>
+                                <th>District</th>
+                                <th>State</th>
                                 <th>Animal Count</th>
                                 <th>Survey Date</th>
                                 <th>Surveyor Name</th>
+                                <th>Method of Survey</th>
                                 <th>Status</th>
-                                <th>Notes</th>
+                                <th style="width:500px;">Notes</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for result in results %}
                                 <tr>
                                     <td>{{ result.animal_name }}</td>
+                                    <td>{{ result.place }}</td>
                                     <td>{{ result.location }}</td>
                                     <td>{{ result.animal_count }}</td>
                                     <td>{{ result.survey_date }}</td>
                                     <td>{{ result.surveyor_name }}</td>
+                                    <td>{{ result.method }}</td>
                                     <td>{{ result.status }}</td>
                                     <td>{{ result.notes }}</td>
                                 </tr>

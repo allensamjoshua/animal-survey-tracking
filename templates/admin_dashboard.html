@@ -19,12 +19,14 @@
             <thead>
                 <tr>
                     <th>Survey Id</th>
-                    <th>Animal</th>
-                    <th>Location</th>
+                    <th>Animal</th> 
+                    <th>District</th>
+                    <th>State</th>
                     <th>Count</th>
                     <th>Survey Date</th>
                     <th>Surveyor Name</th>
-                    <th>Status</th>
+                    <th>Type of Survey</th>
+                    <th style="width:500px;">Status</th>
                     <th>Notes</th>
                     <th>Actions</th>
                 </tr>
@@ -34,10 +36,12 @@
                 <tr>
                     <td>{{ animals.survey_id }}</td>
                     <td>{{ animals.animal_name }}</td>
-                    <td>{{ animals.location }}</td>
+                    <td>{{ animals.place }}</td> <!--District-->
+                    <td>{{ animals.location }}</td> <!--State-->
                     <td>{{ animals.animal_count }}</td>
                     <td>{{ animals.survey_date }}</td>
                     <td>{{ animals.surveyor_name }}</td>
+                    <td>{{ animals.method }}</td>
                     <td>{{ animals.status }}</td>
                     <td>{{ animals.notes }}</td>
                     <td>

@@ -13,22 +13,32 @@
         <form method="post" action="{{ url_for('update_record', survey_id=animal.survey_id) }}">
             <label for="survey_id">Survey ID: </label>
             <input type="text" name="survey_id" id="survey_id" value="{{ animal.survey_id }}" readonly/><br>
+            
             <label for="animal_name">Name of animal: </label>
             <input type="text" name="animal_name" id="animal_name" value="{{ animal.animal_name }}" required/><br>
-            <label for="location">Location of Survey: </label>
+            
+            <label for="place">District of Survey: </label>
+            <input type="text" name="place" id="place" value="{{ animal.place }}" required/><br>
+
+            <label for="location">State of Survey: </label>
             <input type="text" name="location" id="location" value="{{ animal.location }}" required/><br>
+            
             <label for="animal_count">Count of Animals: </label>
             <input type="number" name="animal_count" id="animal_count" value="{{ animal.animal_count }}"/><br>
+            
             <label for="survey_date">Surveyed Date: </label>
             <input type="text" name="survey_date" id="survey_date" placeholder="YYYY-MM-DD" value="{{ animal.survey_date }}" required/><br>
+            
             <label for="surveyor_name">Name of the Surveyor: </label>
             <input type="text" name="surveyor_name" id="surveyor_name" value="{{ animal.surveyor_name }}" required/><br>
+                
             <label for="status">Status of the Survey: </label>
             <select name="status" id="status">
                 <option value="In Progress" {% if animal.status == 'In Progress' %}selected{% endif %}>In Progress</option>
                 <option value="Completed" {% if animal.status == 'Completed' %}selected{% endif %}>Completed</option>
                 <option value="Aborted" {% if animal.status == 'Aborted' %}selected{% endif %}>Aborted</option>
             </select><br>
+            
             <label for="notes">Notes: </label>
             <textarea name="notes" id="notes" rows="5" cols="50">{{ animal.notes }}</textarea><br>
             <button type="submit">Update Record</button>
