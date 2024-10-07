@@ -7,13 +7,13 @@
 <body>
     <div class="top-right">
         <a href="{{ url_for('logout') }}">
-            <button>Logout</button>
+            <button style="background-color: rgb(182, 198, 62);">Logout</button>
         </a>
     </div>
     <div class="center">
         <h2>Indian Wildlife Database</h2>
         <a href="{{ url_for('create_record') }}">
-            <button>Create a Record</button>
+            <button style="background-color: green;">Create a Record</button>
         </a>
         <table>
             <thead>
@@ -46,10 +46,10 @@
                     <td>{{ animals.notes }}</td>
                     <td>
                         <a href="{{ url_for('update_record', survey_id=animals.survey_id) }}">
-                            <button>Update</button>
+                            <button style="background-color: orangered;">Update</button>
                         </a>
                         <a href="{{ url_for('delete_record', survey_id=animals.survey_id) }}" onclick="return confirm('Are you sure you want to delete this record?');">
-                            <button>Delete</button>
+                            <button style="background-color: red;">Delete</button>
                         </a>
                     </td>
                                 
