@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTP Input</title>
+    <link rel="stylesheet" href="staticstyles.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Enter OTP</h2>
+        <form action="/admin/forgot/validateotp" method="POST">
+            <label for="otp">OTP:</label>
+            <input type="number" id="otp" name="otp" required>
+            <button type="submit">Validate OTP</button>
+        </form>
+    </div>
+</body>
+</html>

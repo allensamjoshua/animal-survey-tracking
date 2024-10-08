@@ -1,6 +1,9 @@
 from flask import Flask, redirect, render_template, url_for, request, session, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
+import random
+import smtplib
+from email.message import EmailMessage
 
 app = Flask(__name__)
 
@@ -32,6 +35,7 @@ class Admin(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
+    email = db.Column(db.String(60), nullable = False, unique = True)
 
 # Homepage 
 @app.route('/', methods=['GET'])
@@ -57,6 +61,82 @@ def admin_login():
         else:
             flash("Invalid Credentials")
     return render_template('admin_login.html')
+
+@app.route("/admin/forgot", methods=['GET','POST'])
+def getemail():
+    if request.method == 'POST':
+        e_id = request.form['email']
+
+        exist = Admin.query.filter_by(email=e_id).first()
+
+        if exist:
+            def generate_otp():
+                otp = random.randint(100000, 999999)
+                return otp
+
+            def send_otp(otp, receiver_email):
+                sender_email = "allensamjoshua2003@gmail.com"
+                sender_password = "qbhu pwzo fnxg ydyh"
+
+                msg = EmailMessage()
+                msg.set_content(f"Your OTP for password recovery is: {otp}\nNEVER SHARE THIS WITH ANYONE!")
+                msg['Subject'] = "OTP for Password Recovery"
+                msg['From'] = sender_email
+                msg['To'] = receiver_email
+
+                with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+                    smtp.login(sender_email, sender_password)
+                    smtp.send_message(msg)
+
+            otp = generate_otp()
+            send_otp(otp, e_id)
+            
+            session['otp'] = otp  # Store OTP in session
+            session['email'] = e_id  # Store email in session for later use
+            flash("OTP sent to your email.")
+            return redirect(url_for('validateotp'))
+
+        else:
+            flash("Invalid email.")
+            
+    return render_template('enter_email.html')
+
+
+@app.route('/admin/forgot/validateotp', methods=['GET', 'POST'])
+def validateotp():
+    if request.method == 'POST':
+        otp = request.form['otp']
+        
+        if 'otp' in session and str(session['otp']) == otp:
+            return redirect(url_for('newpwd'))  # OTP is correct, redirect to password reset
+        else:
+            flash("Invalid OTP.")
+            return redirect(url_for('getemail'))
+
+    return render_template('enter_otp.html')
+
+
+@app.route('/admin/forgot/validate/otp/enter_password', methods=['GET', 'POST'])
+def newpwd():
+    if request.method == 'POST':
+        pwd = request.form['new_password']
+        cpwd = request.form['confirm_password']
+
+        if pwd == cpwd:
+            hashed_pwd = bcrypt.generate_password_hash(pwd).decode('utf-8')
+            admin = Admin.query.filter_by(email=session.get('email')).first()  # Fetch admin by stored email
+
+            if admin:
+                admin.password = hashed_pwd
+                db.session.commit()
+                flash("Password changed successfully.")
+                session.pop('otp', None)  # Clear OTP from session
+                return redirect(url_for('admin_login'))
+        else:
+            flash("Passwords do not match.")
+    
+    return render_template('enter_password.html')
+
 
 # Admin dashboard page
 @app.route('/admin/admin_dashboard', methods=['GET','POST'])
@@ -176,6 +256,7 @@ def delete_record(survey_id):
 def logout():
     session.pop('admin', None)  # Remove the admin session
     return redirect(url_for('home'))  # Redirect to the homepage or login page
+
 
 if __name__ == '__main__':
    app.run(debug=True)

@@ -1,32 +1,26 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Admin Login</title>
-    <link rel="stylesheet" href="/static/styles.css"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="static/styles.css">
 </head>
 <body>
-    <div class="top-left">
-        <button onclick="location.href='{{url_for('home')}}'">Back</button>
-    </div>
-    <div class="center">
-        <h2>Admin Login</h2>
+    <div class="container">
+        <h2>Login</h2>
         <form method="POST">
-            <label for="username">Username</label>
-            <input type="text" name="username" id="username" placeholder="Username"/><br><br>
-            <label for="password">Password</label>
-            <input type="password" name="password" id="password" placeholder="Password"/><br><br>
-            <input type="submit" value="Login"/>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+            
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            
+            <button type="submit">Login</button>
         </form>
-
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <div class="flash-messages">
-                    {% for message in messages %}
-                        <div class="flash-message">{{ message }}</div>
-                    {% endfor %}
-                </div>
-            {% endif %}
-        {% endwith %}
+        <div class="forgot-password">
+            <a href="/admin/forgot">Forgot Password?</a>
+        </div>
     </div>
 </body>
 </html>
