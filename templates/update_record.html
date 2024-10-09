@@ -15,10 +15,10 @@
             <input type="text" name="survey_id" id="survey_id" value="{{ animal.survey_id }}" readonly/><br>
             
             <label for="animal_name">Name of animal: </label>
-            <input type="text" name="animal_name" id="animal_name" value="{{ animal.animal_name }}" pattern="^[a-zA-Z]+$" required/><br>
+            <input type="text" name="animal_name" id="animal_name" value="{{ animal.animal_name }}" pattern="^[a-zA-Z\s]+$" required/><br>
             
             <label for="place">District of Survey: </label>
-            <input type="text" name="place" id="place" value="{{ animal.place }}" pattern="^[a-zA-Z]+$" required/><br>
+            <input type="text" name="place" id="place" value="{{ animal.place }}" pattern="^[a-zA-Z\s]+$" required/><br>
 
             <label for="location">State:</label>
             <select name="location" id="location">
@@ -59,7 +59,7 @@
             <input type="date" name="survey_date" id="survey_date" value="{{ animal.survey_date }}" required/><br>
             
             <label for="surveyor_name">Name of the Surveyor: </label>
-            <input type="text" name="surveyor_name" id="surveyor_name" value="{{ animal.surveyor_name }}" pattern="^[a-zA-Z]+$" required/><br>
+            <input type="text" name="surveyor_name" id="surveyor_name" value="{{ animal.surveyor_name }}" pattern="^[a-zA-Z\s]+$" required/><br>
                 
             <label for="status">Status of the Survey: </label>
             <select name="status" id="status">

@@ -49,6 +49,7 @@ table {
   width: 90%;
   margin: 20px auto;
   border-collapse: collapse;
+  table-layout: auto;  /* Allow columns to resize based on content */
 }
 
 th, td {
@@ -60,6 +61,15 @@ th, td {
 th {
   background-color: #81c784;
   color: white;
+}
+
+/* Specific style for Notes column */
+td.notes {
+  white-space: pre-wrap;  /* Allows paragraphs and breaks */
+  text-align: left;       /* Align text to the left */
+  width: 400px;           /* Adjust width as needed */
+  word-wrap: break-word;  /* Ensures long words break to fit */
+  padding: 15px;          /* Add more padding for readability */
 }
 
 tr:nth-child(even) {

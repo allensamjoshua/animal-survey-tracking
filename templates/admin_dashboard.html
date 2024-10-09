@@ -1,8 +1,20 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <link rel="stylesheet" href="/static/styles.css"/>
+    <style>
+        /* Optional: Style for the search input */
+        #searchInput {
+            margin-bottom: 20px;
+            padding: 10px;
+            width: 80%; /* Width of the search box */
+            border: 1px solid #4caf50;
+            border-radius: 5px;
+        }
+    </style>
 </head>
 <body>
     <div class="top-right">
@@ -15,6 +27,10 @@
         <a href="{{ url_for('create_record') }}">
             <button style="background-color: green;">Create a Record</button>
         </a>
+        
+        <!-- Search Input -->
+        <input type="text" id="searchInput" placeholder="Search for records...">
+        
         <table>
             <thead>
                 <tr>
@@ -26,12 +42,12 @@
                     <th>Survey Date</th>
                     <th>Surveyor Name</th>
                     <th>Type of Survey</th>
-                    <th style="width:500px;">Status</th>
+                    <th>Status</th>
                     <th>Notes</th>
                     <th>Actions</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="animalTableBody">
                 {% for animals in animals %}
                 <tr>
                     <td>{{ animals.survey_id }}</td>
@@ -43,7 +59,7 @@
                     <td>{{ animals.surveyor_name }}</td>
                     <td>{{ animals.method }}</td>
                     <td>{{ animals.status }}</td>
-                    <td>{{ animals.notes }}</td>
+                    <td class="notes">{{ animals.notes }}</td>
                     <td>
                         <a href="{{ url_for('update_record', survey_id=animals.survey_id) }}">
                             <button style="background-color: orangered;">Update</button>
@@ -52,7 +68,6 @@
                             <button style="background-color: red;">Delete</button>
                         </a>
                     </td>
-                                
                 </tr>   
                 {% endfor %}
             </tbody>
@@ -69,5 +84,22 @@
             {% endif %}
         {% endwith %}
     </div>
+
+    <script>
+        // Function to filter table based on search input
+        document.getElementById('searchInput').addEventListener('keyup', function() {
+            const input = this.value.toLowerCase();
+            const tableRows = document.querySelectorAll('#animalTableBody tr');
+
+            tableRows.forEach(row => {
+                const locationCell = row.cells[3].textContent.toLowerCase(); // Adjust index for the "State" or "District" column
+                if (locationCell.includes(input)) {
+                    row.style.display = ''; // Show the row
+                } else {
+                    row.style.display = 'none'; // Hide the row
+                }
+            });
+        });
+    </script>
 </body>
 </html>

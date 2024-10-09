@@ -10,7 +10,7 @@
         </div>
         <div class="center">
             <div class="homepage-search">
-                <h1>Animal Records</h1>
+                <h1>Indian Wildlife Database</h1>
                 <form method="GET" action="{{ url_for('home') }}">
                     <label for="location-search">Search for a Location: </label>
                     <input type="search" id="location-search" name="query" placeholder="Search for a Location(Ex:Tamil Nadu)" value="{{ request.args.get('query', '') }}" />

@@ -15,10 +15,10 @@
             <input type="number" name="survey_id" id="survey_id" required/><br>
 
             <label for="animal_name">Name of animal: </label>
-            <input type="text" name="animal_name" id="animal_name" pattern="^[a-zA-Z]+$" required/><br>
+            <input type="text" name="animal_name" id="animal_name" pattern="^[a-zA-Z\s]+$" required/><br>
 
             <label for="place">District: </label>
-            <input type="text" name="place" id="place" pattern="^[a-zA-Z]+$" required/><br>
+            <input type="text" name="place" id="place" pattern="^[a-zA-Z\s]+$" required/><br>
 
             <label for="location">State:</label>
             <select name="location" id="location">
@@ -59,7 +59,7 @@
             <input type="date" name="survey_date" id="survey_date" required/><br>
 
             <label for="surveyor_name">Name of the Surveyor: </label>
-            <input type="text" name="surveyor_name" id="surveyor_name" pattern="^[a-zA-Z]+$" required/><br>
+            <input type="text" name="surveyor_name" id="surveyor_name" pattern="^[a-zA-Z\s]+$" required/><br>
 
             <label for="type">Type of the Survey: </label>
             <select name="type" id="type">

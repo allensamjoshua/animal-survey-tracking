@@ -3,10 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Admin Login</title>
     <link rel="stylesheet" href="static/styles.css">
 </head>
 <body>
+    <div class="top-left">
+        <button onclick="location.href='{{url_for('home')}}'">Back</button>
+    </div>
     <div class="container">
         <h2>Login</h2>
         <form method="POST">
@@ -22,5 +25,14 @@
             <a href="/admin/forgot">Forgot Password?</a>
         </div>
     </div>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <div class="flash-messages">
+            {% for message in messages %}
+                <div class="flash-message">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
 </body>
 </html>

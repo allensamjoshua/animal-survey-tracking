@@ -71,28 +71,28 @@ def getemail():
 
         if exist:
             def generate_otp():
-                otp = random.randint(100000, 999999)
+                otp = random.randint(100000, 999999) #generates random six digit number
                 return otp
 
             def send_otp(otp, receiver_email):
                 sender_email = "allensamjoshua2003@gmail.com"
-                sender_password = "qbhu pwzo fnxg ydyh"
+                sender_password = "qbhu pwzo fnxg ydyh" #gmail app password
 
-                msg = EmailMessage()
+                msg = EmailMessage() 
                 msg.set_content(f"Your OTP for password recovery is: {otp}\nNEVER SHARE THIS WITH ANYONE!")
                 msg['Subject'] = "OTP for Password Recovery"
                 msg['From'] = sender_email
                 msg['To'] = receiver_email
 
-                with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+                with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp: #465 port number used for SSL-Encrypted email communication
                     smtp.login(sender_email, sender_password)
                     smtp.send_message(msg)
 
             otp = generate_otp()
-            send_otp(otp, e_id)
+            send_otp(otp, e_id) #calling the function
             
             session['otp'] = otp  # Store OTP in session
-            session['email'] = e_id  # Store email in session for later use
+            session['email'] = e_id  # Store email in session 
             flash("OTP sent to your email.")
             return redirect(url_for('validateotp'))
 
@@ -115,7 +115,6 @@ def validateotp():
 
     return render_template('enter_otp.html')
 
-
 @app.route('/admin/forgot/validate/otp/enter_password', methods=['GET', 'POST'])
 def newpwd():
     if request.method == 'POST':
@@ -136,7 +135,6 @@ def newpwd():
             flash("Passwords do not match.")
     
     return render_template('enter_password.html')
-
 
 # Admin dashboard page
 @app.route('/admin/admin_dashboard', methods=['GET','POST'])
