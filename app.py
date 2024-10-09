@@ -37,7 +37,17 @@ class Admin(db.Model):
     password = db.Column(db.String(60), nullable=False)
     email = db.Column(db.String(60), nullable = False, unique = True)
 
-# Homepage 
+class Requests(db.Model):
+    req_id = db.Column(db.Integer, primary_key = True, autoincrement = True)
+    name = db.Column(db.String(50), nullable = False)
+    phn_no = db.Column(db.Integer, nullable = False)
+    email = db.Column(db.String(100), nullable = False)
+    district = db.Column(db.String(50), nullable = False)
+    state = db.Column(db.String(50), nullable = False)
+    status = db.Column(db.String(50), nullable = False, default='pending...')
+    details = db.Column(db.Text, nullable = False)
+
+#Home Page
 @app.route('/', methods=['GET'])
 def home():
     query = request.args.get('query', '')  # Get the search query from the URL
@@ -47,6 +57,34 @@ def home():
         results = AnimalSurvey.query.filter(AnimalSurvey.location.ilike(f'%{query}%')).all()
     
     return render_template("home.html", results=results, query=query)
+
+@app.route('/request_page', methods=['GET','POST'])
+def request_page():
+    if request.method == "POST":
+        uname = request.form['u_name']
+        ph_no = request.form['ph_no']
+        email = request.form['email']
+        district = request.form['dist']
+        state = request.form['state']
+        det = request.form['details']
+
+        insert_qry = Requests(
+            name = uname,
+            phn_no = ph_no,
+            email = email,
+            district = district,
+            state = state,
+            details = det
+        )
+
+
+        db.session.add(insert_qry)
+        db.session.commit()
+        session['sending'] = insert_qry.id
+        flash("Request Sent! We will get back to you shortly!")
+        return redirect(url_for("home"))
+
+    return render_template('request_page.html')
 
 # Admin login page
 @app.route('/admin', methods=['GET','POST'])
@@ -144,6 +182,61 @@ def admin_dashboard():
     
     animals = AnimalSurvey.query.all()
     return render_template('admin_dashboard.html', animals=animals)
+
+@app.route('/admin/admin_request_page', methods=['GET', 'POST'])
+def admin_requests():
+    if 'admin' not in session:
+        return redirect(url_for('admin_login'))
+    
+    reqs = Requests.query.all()
+    return render_template("admin_request_page.html", reqs = reqs)
+
+@app.route('/admin/admin_request_page/completed_survey/<int:req_id>/<string:email>', methods=['GET', 'POST'])
+def completed_survey(req_id, email):
+    if "admin" not in session:
+        return redirect(url_for('home'))
+
+    exist = Requests.query.filter_by(req_id=req_id).first()
+    if request.method == 'POST':
+
+        if exist:
+            exist.status = "survey completed"
+            db.session.commit()         
+
+            def send_mail(receiver_email):
+                sender_email = "allensamjoshua2003@gmail.com"
+                sender_password = "qbhu pwzo fnxg ydyh"  # Gmail app password
+
+                msg = EmailMessage()
+                msg.set_content(f"Hello Comrade, We received your survey request and we are glad to accept your request and conduct the survey. Kindly check our website for the survey of your request!")
+                msg['Subject'] = "Survey Conducted"
+                msg['From'] = sender_email
+                msg['To'] = receiver_email
+
+                with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+                    smtp.login(sender_email, sender_password)
+                    smtp.send_message(msg)
+
+            send_mail(email)  # calling the function
+    return redirect(url_for('admin_dashboard'))  # Redirect to a valid page after sending the email
+
+@app.route('/admin/admin_request_page/decline_survey/<int:req_id>', methods=['GET', 'POST'])
+def decline_survey(req_id):
+    if "admin" not in session:
+        return redirect(url_for("admin_dashboard"))
+
+    exists = Requests.query.filter_by(req_id=req_id).first()
+    
+    if request.method == 'POST':
+        if exists:
+            exists.status = "survey declined"
+            db.session.commit()
+            flash("Updated the status")
+            return redirect(url_for("admin_requests"))
+    
+    return redirect(url_for("admin_requests"))
+
+
 
 @app.route('/admin/admin_dashboard/create_record', methods=['GET','POST'])
 def create_record():
@@ -254,7 +347,6 @@ def delete_record(survey_id):
 def logout():
     session.pop('admin', None)  # Remove the admin session
     return redirect(url_for('home'))  # Redirect to the homepage or login page
-
 
 if __name__ == '__main__':
    app.run(debug=True)

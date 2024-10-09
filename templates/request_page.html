@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Request Page</title>
+        <link rel="stylesheet" href="/static/styles.css"/>
+    </head>
+    <body>
+        <form method="POST">
+            <label for="u_name">Your Name: </label>
+            <input type="text" name = "u_name" id= "u_name" placeholder="Your Name"/><br/>
+
+            <label for="ph_no">Phone Number: </label>
+            <input type="number" name = "ph_no" id= "ph_no" placeholder="Your Phone Number"/><br/>
+
+            <label for="email">Your Email ID: </label>
+            <input type="email" name = "email" id= "email" placeholder="Your Email Id"/><br/>
+
+            <label for="dist">District: </label>
+            <input type="text" name = "dist" id= "dist" placeholder="Your District"/><br/>
+
+            <label for="state">State:</label>
+            <select name="state" id="state">
+                <option value="Andhra Pradesh">Andhra Pradesh</option>
+                <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                <option value="Assam">Assam</option>
+                <option value="Bihar">Bihar</option>
+                <option value="Chhattisgarh">Chhattisgarh</option>
+                <option value="Goa">Goa</option>
+                <option value="Gujarat">Gujarat</option>
+                <option value="Haryana">Haryana</option>
+                <option value="Himachal Pradesh">Himachal Pradesh</option>
+                <option value="Jharkhand">Jharkhand</option>
+                <option value="Karnataka">Karnataka</option>
+                <option value="Kerala">Kerala</option>
+                <option value="Madhya Pradesh">Madhya Pradesh</option>
+                <option value="Maharashtra">Maharashtra</option>
+                <option value="Manipur">Manipur</option>
+                <option value="Meghalaya">Meghalaya</option>
+                <option value="Mizoram">Mizoram</option>
+                <option value="Nagaland">Nagaland</option>
+                <option value="Odisha">Odisha</option>
+                <option value="Punjab">Punjab</option>
+                <option value="Rajasthan">Rajasthan</option>
+                <option value="Sikkim">Sikkim</option>
+                <option value="Tamil Nadu">Tamil Nadu</option>
+                <option value="Telangana">Telangana</option>
+                <option value="Tripura">Tripura</option>
+                <option value="Uttar Pradesh">Uttar Pradesh</option>
+                <option value="Uttarakhand">Uttarakhand</option>
+                <option value="West Bengal">West Bengal</option>
+            </select><br>
+
+            <label for="details">Details </label>
+            <textarea name="details" id="details" rows="5" cols="50"></textarea><br>
+            <button type="submit">Submit Request</button>
+
+        </form>
+    </body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Request Page</title>
+        <link rel="stylesheet" href="/static/styles.css"/>
+    </head>
+    <body>
+        <div class="center">
+            <h2>Survey Requests</h2>            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Request Id</th>
+                        <th>Name</th> 
+                        <th>Phone Number</th>
+                        <th>Email</th>
+                        <th>District</th>
+                        <th>State</th>
+                        <th>Status</th>
+                        <th>Details</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for reqs in reqs %}
+                    <tr>
+                        <td>{{ reqs.req_id }}</td>
+                        <td>{{ reqs.name }}</td>
+                        <td>{{ reqs.phn_no }}</td>
+                        <td>{{ reqs.email }}</td>
+                        <td>{{ reqs.district }}</td>
+                        <td>{{ reqs.state }}</td>
+                        <td>{{ reqs.status }}</td>
+                        <td>{{ reqs.details }}</td>
+                        <td>
+                            <form action="{{ url_for('completed_survey', req_id=reqs.req_id, email=reqs.email) }}" method="POST" onclick="return confirm('Are you sure you completed this survey?');">
+                                <button type="submit" style="background-color: green;">Request Completed</button>
+                            </form> 
+
+                            <form action="{{ url_for('decline_survey', req_id=reqs.req_id) }}" method="POST" onsubmit="return confirm('Are you sure you want to Decline this request?');" style="display: inline;">
+                                <button type="submit" style="background-color: goldenrod;">Decline Request</button>
+                            </form>                            
+                        
+                            <a onclick="return confirm('Are you sure you want to Delete this request?');">
+                                <button style="background-color: red;">Delete</button>
+                            </a>
+                        </td>
+                    </tr>   
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>
