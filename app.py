@@ -200,7 +200,7 @@ def completed_survey(req_id, email):
     if request.method == 'POST':
 
         if exist:
-            exist.status = "survey completed"
+            exist.status = "Survey Conducted!"
             db.session.commit()         
 
             def send_mail(receiver_email):
@@ -208,7 +208,7 @@ def completed_survey(req_id, email):
                 sender_password = "qbhu pwzo fnxg ydyh"  # Gmail app password
 
                 msg = EmailMessage()
-                msg.set_content(f"Hello Comrade, We received your survey request and we are glad to accept your request and conduct the survey. Kindly check our website for the survey of your request!")
+                msg.set_content(f"Hello Solider, We received your survey request and we are glad to accept your request and conduct the survey. Kindly check our website for the survey of your request!")
                 msg['Subject'] = "Survey Conducted"
                 msg['From'] = sender_email
                 msg['To'] = receiver_email
@@ -220,8 +220,8 @@ def completed_survey(req_id, email):
             send_mail(email)  # calling the function
     return redirect(url_for('admin_dashboard'))  # Redirect to a valid page after sending the email
 
-@app.route('/admin/admin_request_page/decline_survey/<int:req_id>', methods=['GET', 'POST'])
-def decline_survey(req_id):
+@app.route('/admin/admin_request_page/decline_survey/<int:req_id>/<string:email>', methods=['GET', 'POST'])
+def decline_survey(req_id, email):
     if "admin" not in session:
         return redirect(url_for("admin_dashboard"))
 
@@ -229,15 +229,40 @@ def decline_survey(req_id):
     
     if request.method == 'POST':
         if exists:
-            exists.status = "survey declined"
+            exists.status = "Request Declined"
             db.session.commit()
-            flash("Updated the status")
-            return redirect(url_for("admin_requests"))
+
+            def send_mail(receiver_email):
+                sender_email = "allensamjoshua2003@gmail.com"
+                sender_password = "qbhu pwzo fnxg ydyh"  # Gmail app password
+
+                msg = EmailMessage()
+                msg.set_content(f"Hello Solider, We recieved your survey request but unfortunately we cannot move on with your request. Thank you for contacting us!")
+                msg['Subject'] = "Survey Request Declined"
+                msg['From'] = sender_email
+                msg['To'] = receiver_email
+
+                with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+                    smtp.login(sender_email, sender_password)
+                    smtp.send_message(msg)
+
+            send_mail(email)  # calling the function
+    return redirect(url_for('admin_dashboard'))  # Redirect to a valid page after sending the email
+
+@app.route('/admin/admin_request_page/delete_request/<int:req_id>', methods=['GET', 'POST'])
+def delete_request(req_id):
+    if "admin" not in session:
+        return redirect(url_for('admin_login'))
     
-    return redirect(url_for("admin_requests"))
+    exist = Requests.query.filter_by(req_id = req_id).first()
 
+    if exist:
+        db.session.delete(exist)
+        db.session.commit()
+        flash("Request Deleted")
 
-
+        return redirect(url_for("admin_requests"))
+    
 @app.route('/admin/admin_dashboard/create_record', methods=['GET','POST'])
 def create_record():
     if 'admin' not in session:
@@ -328,6 +353,7 @@ def update_record(survey_id):
     
     flash("Record does not exist")
     return redirect(url_for('admin_dashboard'))
+
 
 @app.route("/admin/admin_dashboard/delete_record/<int:survey_id>", methods=['GET', 'POST'])
 def delete_record(survey_id):
