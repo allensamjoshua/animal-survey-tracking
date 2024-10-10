@@ -47,7 +47,7 @@
                         <td>{{ reqs.state }}</td>
                         <td>{{ reqs.status }}</td>
                         <td>{{ reqs.details }}</td>
-                        <td><!--
+                        <td>
                             <form action="{{ url_for('completed_survey', req_id=reqs.req_id, email=reqs.email) }}" method="POST" onclick="return confirm('Are you sure you completed this survey?');">
                                 <button type="submit" style="background-color: green;">Request Completed</button>
                             </form>     
@@ -55,11 +55,8 @@
                             <form action="{{ url_for('decline_survey', req_id=reqs.req_id, email=reqs.email) }}" method="POST" onsubmit="return confirm('Are you sure you want to Decline this request?');" style="display: inline;">
                                 <button type="submit" style="background-color: goldenrod;">Decline Request</button>
                             </form>
-                        -->
-                                <button style="background-color: green;" onclick="if(confirm('Are you sure you completed this survey?')) { window.location.href = '{{ url_for('completed_survey', req_id=reqs.req_id, email=req.email) }}'; }">Completed Request</button>
-
-                                <button style="background-color: goldenrod;" onclick="if(confirm('Are you sure you want to decline this request?')) { window.location.href = '{{ url_for('decline_request', req_id=reqs.req_id, email=req.email) }}'; }">Decline Request</button>
-
+                        
+                                
                                 <button style="background-color: red;" onclick="if(confirm('Are you sure you want to delete this request?')) { window.location.href = '{{ url_for('delete_request', req_id=reqs.req_id) }}'; }">Delete</button>
                             
                             

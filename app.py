@@ -5,7 +5,7 @@ import random
 import smtplib
 from email.message import EmailMessage
 
-app = Flask(__name__)
+app = Flask(__name__) #app initialisation
 
 app.config['SECRET_KEY'] = 'allen_sam'
 app.config['SQLALCHEMY_DATABASE_URI'] = (
@@ -16,9 +16,10 @@ app.config['SQLALCHEMY_DATABASE_URI'] = (
     'Trusted_Connection=yes;'
 )
 
-db = SQLAlchemy(app)
+db = SQLAlchemy(app) 
 bcrypt = Bcrypt(app)
 
+#Database Model
 class AnimalSurvey(db.Model):
     survey_id = db.Column(db.Integer, primary_key=True)
     animal_name = db.Column(db.String(50), nullable=False)
@@ -47,6 +48,7 @@ class Requests(db.Model):
     status = db.Column(db.String(50), nullable = False, default='pending...')
     details = db.Column(db.Text, nullable = False)
 
+
 #Home Page
 @app.route('/', methods=['GET'])
 def home():
@@ -58,6 +60,7 @@ def home():
     
     return render_template("home.html", results=results, query=query)
 
+#Request Page (User Side)
 @app.route('/request_page', methods=['GET','POST'])
 def request_page():
     if request.method == "POST":
@@ -86,6 +89,7 @@ def request_page():
 
     return render_template('request_page.html')
 
+
 # Admin login page
 @app.route('/admin', methods=['GET','POST'])
 def admin_login():
@@ -100,6 +104,8 @@ def admin_login():
             flash("Invalid Credentials")
     return render_template('admin_login.html')
 
+
+#Admin Forgot Password
 @app.route("/admin/forgot", methods=['GET','POST'])
 def getemail():
     if request.method == 'POST':
@@ -140,6 +146,7 @@ def getemail():
     return render_template('enter_email.html')
 
 
+#To get the OTP From User and Validate it
 @app.route('/admin/forgot/validateotp', methods=['GET', 'POST'])
 def validateotp():
     if request.method == 'POST':
@@ -153,6 +160,8 @@ def validateotp():
 
     return render_template('enter_otp.html')
 
+
+#Page to get the new password
 @app.route('/admin/forgot/validate/otp/enter_password', methods=['GET', 'POST'])
 def newpwd():
     if request.method == 'POST':
@@ -174,6 +183,7 @@ def newpwd():
     
     return render_template('enter_password.html')
 
+
 # Admin dashboard page
 @app.route('/admin/admin_dashboard', methods=['GET','POST'])
 def admin_dashboard():
@@ -183,6 +193,8 @@ def admin_dashboard():
     animals = AnimalSurvey.query.all()
     return render_template('admin_dashboard.html', animals=animals)
 
+
+#Request Page (Admin side)
 @app.route('/admin/admin_request_page', methods=['GET', 'POST'])
 def admin_requests():
     if 'admin' not in session:
@@ -191,6 +203,8 @@ def admin_requests():
     reqs = Requests.query.all()
     return render_template("admin_request_page.html", reqs = reqs)
 
+
+#Completed Survey Button
 @app.route('/admin/admin_request_page/completed_survey/<int:req_id>/<string:email>', methods=['GET', 'POST'])
 def completed_survey(req_id, email):
     if "admin" not in session:
@@ -220,6 +234,8 @@ def completed_survey(req_id, email):
             send_mail(email)  # calling the function
     return redirect(url_for('admin_dashboard'))  # Redirect to a valid page after sending the email
 
+
+#Declined Survey Button
 @app.route('/admin/admin_request_page/decline_survey/<int:req_id>/<string:email>', methods=['GET', 'POST'])
 def decline_survey(req_id, email):
     if "admin" not in session:
@@ -249,6 +265,8 @@ def decline_survey(req_id, email):
             send_mail(email)  # calling the function
     return redirect(url_for('admin_dashboard'))  # Redirect to a valid page after sending the email
 
+
+#Delete request button
 @app.route('/admin/admin_request_page/delete_request/<int:req_id>', methods=['GET', 'POST'])
 def delete_request(req_id):
     if "admin" not in session:
@@ -263,6 +281,7 @@ def delete_request(req_id):
 
         return redirect(url_for("admin_requests"))
     
+ #Create a record   
 @app.route('/admin/admin_dashboard/create_record', methods=['GET','POST'])
 def create_record():
     if 'admin' not in session:
@@ -306,6 +325,7 @@ def create_record():
   
     return render_template('create_record.html')
 
+#Update a record
 @app.route('/admin/admin_dashboard/update_record/<int:survey_id>', methods=['GET', 'POST'])
 def update_record(survey_id):
     if "admin" not in session:
@@ -354,7 +374,7 @@ def update_record(survey_id):
     flash("Record does not exist")
     return redirect(url_for('admin_dashboard'))
 
-
+#Delete a record
 @app.route("/admin/admin_dashboard/delete_record/<int:survey_id>", methods=['GET', 'POST'])
 def delete_record(survey_id):
     if "admin" not in session:
@@ -369,6 +389,7 @@ def delete_record(survey_id):
     
     return redirect(url_for("admin_dashboard"))
 
+#Admin Logout
 @app.route('/admin/admin_dashboard/logout', methods=['GET'])
 def logout():
     session.pop('admin', None)  # Remove the admin session
