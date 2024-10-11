@@ -10,7 +10,7 @@ app.config['SECRET_KEY'] = 'allen_sam'
 app.config['SQLALCHEMY_DATABASE_URI'] = (
     'mssql+pyodbc:///?odbc_connect=' +
     'DRIVER={ODBC Driver 17 for SQL Server};'
-    'SERVER=DESKTOP-NP4U7J0\\SQLEXPRESS;'
+    'SERVER=DESKTOP-6OI45DP\\SQLEXPRESS;'
     'DATABASE=ut_project;'
     'Trusted_Connection=yes;'
 )
@@ -86,7 +86,6 @@ def request_page():
             state = state,
             details = det
         )
-
 
         db.session.add(insert_qry)
         db.session.commit()
