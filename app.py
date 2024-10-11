@@ -90,7 +90,7 @@ def request_page():
 
         db.session.add(insert_qry)
         db.session.commit()
-        session['sending'] = insert_qry.id
+        session['sending'] = insert_qry.req_id
         flash("Request Sent! We will get back to you shortly!")
         return redirect(url_for("home"))
 
