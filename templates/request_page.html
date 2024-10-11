@@ -5,6 +5,9 @@
         <link rel="stylesheet" href="/static/styles.css"/>
     </head>
     <body>
+        <div class="top-left">
+            <button onclick="location.href='{{url_for('home')}}'">Back</button>
+        </div>
         <form method="POST">
             <label for="u_name">Your Name: </label>
             <input type="text" name = "u_name" id= "u_name" placeholder="Your Name"/><br/>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Report - {{ survey.animal_name }}</title>
+    <link rel="stylesheet" href="/static/styles.css"/>
+    <style>
+        /* Styling to ensure the report is clean when printed */
+        @media print {
+            /* Hide the print button during print */
+            .no-print {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Report of {{ survey.animal_name }} in {{survey.place}}</h1>
+    <p><strong>Survey ID:</strong> {{ survey.survey_id }}</p>
+    <p><strong>Surveyor Name:</strong> {{ survey.surveyor_name }}</p>
+    <p><strong>Survey Date:</strong> {{ survey.survey_date }}</p>
+    <p><strong>Status:</strong> {{ survey.status }}</p>
+
+    <hr>
+    <h2>Report Content</h2>
+    <div>
+        {{ survey.notes}} 
+    </div>
+
+    <hr>
+    <button class="no-print" onclick="window.print()">Print Report</button><br>
+    <a href="{{ url_for('home') }}">Back to Home</a>
+</body>
+</html>

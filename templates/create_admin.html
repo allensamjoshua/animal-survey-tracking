@@ -8,9 +8,16 @@
     <body>
         <center>
             <h2>Admin Sign-Up</h2>
+            <div class="top-left">
+                <button onclick="location.href='{{url_for('admin_login')}}'">Back</button>
+            </div>
             <form method="POST">
                 <label for="username">Username</label>
                 <input type="text" name="username" id="username" placeholder="Create Username" required/><br><br>
+
+                <label for="email">Email ID</label>
+                <input type="email" name="email" id="email" placeholder="Enter Email" required/><br><br>
+
                 <label for="password">Password</label>
                 <input type="password" name="password" id="password" placeholder="Set Password" required/><br><br>
                 <input type="submit" value="Create Admin"/>

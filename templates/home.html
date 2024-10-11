@@ -34,7 +34,7 @@
                                 <th>Surveyor Name</th>
                                 <th>Method of Survey</th>
                                 <th>Status</th>
-                                <th style="width:500px;">Notes</th>
+                                <th>Report</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -48,7 +48,7 @@
                                     <td>{{ result.surveyor_name }}</td>
                                     <td>{{ result.method }}</td>
                                     <td>{{ result.status }}</td>
-                                    <td>{{ result.notes }}</td>
+                                    <td><a href="{{ url_for('view_report', survey_id=result.survey_id) }}">View Report</a></td>
                                 </tr>
                             {% endfor %}
                         </tbody>

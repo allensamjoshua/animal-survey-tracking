@@ -1,8 +1,7 @@
 from flask import Flask, redirect, render_template, url_for, request, session, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
-import random
-import smtplib
+import random, smtplib
 from email.message import EmailMessage
 
 app = Flask(__name__) #app initialisation
@@ -11,7 +10,7 @@ app.config['SECRET_KEY'] = 'allen_sam'
 app.config['SQLALCHEMY_DATABASE_URI'] = (
     'mssql+pyodbc:///?odbc_connect=' +
     'DRIVER={ODBC Driver 17 for SQL Server};'
-    'SERVER=DESKTOP-6OI45DP\\SQLEXPRESS;'
+    'SERVER=DESKTOP-NP4U7J0\\SQLEXPRESS;'
     'DATABASE=ut_project;'
     'Trusted_Connection=yes;'
 )
@@ -21,7 +20,7 @@ bcrypt = Bcrypt(app)
 
 #Database Model
 class AnimalSurvey(db.Model):
-    survey_id = db.Column(db.Integer, primary_key=True)
+    survey_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     animal_name = db.Column(db.String(50), nullable=False)
     place = db.Column(db.String(50))
     location = db.Column(db.String(50), nullable=False)
@@ -47,6 +46,7 @@ class Requests(db.Model):
     state = db.Column(db.String(50), nullable = False)
     status = db.Column(db.String(50), nullable = False, default='pending...')
     details = db.Column(db.Text, nullable = False)
+    is_processed = db.Column(db.Boolean, default=False)
 
 
 #Home Page
@@ -59,6 +59,13 @@ def home():
         results = AnimalSurvey.query.filter(AnimalSurvey.location.ilike(f'%{query}%')).all()
     
     return render_template("home.html", results=results, query=query)
+
+#View Report Page
+@app.route('/report/<int:survey_id>', methods=['GET'])
+def view_report(survey_id):
+    survey = AnimalSurvey.query.get_or_404(survey_id)  # Get survey by ID or return 404 if not found
+    return render_template('report.html', survey=survey)
+
 
 #Request Page (User Side)
 @app.route('/request_page', methods=['GET','POST'])
@@ -215,6 +222,7 @@ def completed_survey(req_id, email):
 
         if exist:
             exist.status = "Survey Conducted!"
+            exist.is_processed = True
             db.session.commit()         
 
             def send_mail(receiver_email):
@@ -246,6 +254,7 @@ def decline_survey(req_id, email):
     if request.method == 'POST':
         if exists:
             exists.status = "Request Declined"
+            exists.is_processed = True
             db.session.commit()
 
             def send_mail(receiver_email):
