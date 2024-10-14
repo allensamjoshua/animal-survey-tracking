@@ -20,10 +20,11 @@
             <input type="password" id="password" name="password" required>
             
             <button type="submit">Login</button>
+            <div class="forgot-password">
+                <a href="/admin/forgot">Forgot Password?</a>
+            </div>
         </form>
-        <div class="forgot-password">
-            <a href="/admin/forgot">Forgot Password?</a>
-        </div>
+      
     </div>
     {% with messages = get_flashed_messages() %}
     {% if messages %}

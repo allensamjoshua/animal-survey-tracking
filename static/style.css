@@ -1,90 +1,141 @@
 /* General Styles */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #e0f7fa;
-    color: #2c3e50;
-    margin: 0;
-    padding: 20px;
-    text-align: center;
-  }
-  
-  h1, h2 {
-    color: #2e7d32;
-  }
-  
-  button {
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    margin: 10px;
-  }
-  
-  button:hover {
-    background-color: #388e3c;
-  }
-  
-  input, select, textarea {
-    width: calc(100% - 20px); /* Adjusted for padding */
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #4caf50;
-    border-radius: 5px;
-  }
-  
-  /* Table Styles */
-  table {
-    width: 90%;
-    margin: 20px auto;
-    border-collapse: collapse;
-    table-layout: auto;  /* Allow columns to resize based on content */
-  }
-  
-  th, td {
-    border: 1px solid #4caf50;
-    padding: 8px;
-    text-align: center;
-  }
-  
-  th {
-    background-color: #81c784;
-    color: white;
-  }
-  
-  /* Specific style for Notes column */
-  td.notes {
-    white-space: pre-wrap;  /* Allows paragraphs and breaks */
-    text-align: left;       /* Align text to the left */
-    width: 400px;           /* Adjust width as needed */
-    word-wrap: break-word;  /* Ensures long words break to fit */
-    padding: 15px;          /* Add more padding for readability */
-  }
-  
-  tr:nth-child(even) {
-    background-color: #f1f8e9;
-  }
-  
-  tr:hover {
-    background-color: #dcedc8;
-  }
-  
-  /* Center Alignment */
-  .center {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .top-right {
-      position: absolute;
-      top: 10px;
-      right: 20px;
-  }
-  
-  .top-left {
-    position: absolute;
-    top: 10px;
-    right: 20px;
-  }
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #e9f5e9; /* Light forest green */
+  color: #2e4e1f; /* Dark green for text */
+  margin: 0;
+  padding: 20px;
+}
+
+h1, h2 {
+  color: #155724; /* Darker green for headers */
+  margin-bottom: 15px;
+  text-align: center; /* Center aligned headings */
+}
+
+/* General Button Styles */
+button {
+  background-color: #2e7d32;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+  width: auto; /* Default to automatic width */
+  display: inline-block; /* Inline to prevent full width */
+  text-align: center;
+  transition: background-color 0.3s ease-in-out, transform 0.2s;
+}
+
+button.request-survey {
+  width: 200px; /* Specific width for 'Request a Survey' button */
+  margin: 0 auto; /* Center the button horizontally */
+}
+
+button:hover {
+  background-color: #1b5e20; /* Darker forest green */
+  transform: scale(1.05);
+}
+
+
+input, select, textarea {
+  width: 100%; /* Full width fields */
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #81c784; /* Soft green border */
+  border-radius: 5px;
+  font-size: 16px;
+  box-sizing: border-box;
+  display: block;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: #43a047; /* Bright green on focus */
+  outline: none;
+  box-shadow: 0 0 6px rgba(67, 160, 71, 0.4); /* Green glow on focus */
+}
+
+/* Table Styles */
+table {
+  width: 90%;
+  margin: 20px auto;
+  border-collapse: collapse;
+  max-width: 1000px;
+  text-align: center; /* Centered table content */
+}
+
+th, td {
+  padding: 12px;
+  border: 1px solid #4caf50; /* Forest green border */
+}
+
+th {
+  background-color: #2e7d32; /* Dark forest green for table header */
+  color: white;
+}
+
+tr:nth-child(even) {
+  background-color: #e8f5e9; /* Light green background for alternate rows */
+}
+
+tr:hover {
+  background-color: #c8e6c9; /* Light forest green on hover */
+}
+
+/* Specific style for Notes column */
+td.notes {
+  white-space: pre-wrap;
+  text-align: left;
+  word-wrap: break-word;
+  padding: 15px;
+}
+
+/* Alignment Fixes */
+.center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+table {
+  margin-top: 40px;
+}
+
+.top-right {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+}
+
+.top-left {
+  position: absolute;
+  top: 10px;
+  left: 20px;
+}
+
+/* Navigation Smoothness */
+a {
+  color: #2e7d32; /* Forest green links */
+  text-decoration: none;
+  transition: color 0.3s ease-in-out;
+}
+
+a:hover {
+  color: #1b5e20; /* Darker green on hover */
+}
+
+input, select, textarea {
+  transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+/* Button Smoothness */
+button {
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Table transitions */
+table, th, td {
+  transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out;
+}

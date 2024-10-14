@@ -24,7 +24,9 @@
             <button onclick="location.href='{{url_for('admin_dashboard')}}'">Back</button>
         </div>
         <div class="center">
-            <h2>Survey Requests</h2>            
+            <h2>Survey Requests</h2>  
+            <input type="text" id="searchInput" placeholder="Search for requests...">
+        
             <table>
                 <thead>
                     <tr>
@@ -39,7 +41,7 @@
                         <th>Actions</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="requestTableBody">
                     {% for reqs in reqs %}
                     <tr>
                         <td>{{ reqs.req_id }}</td>
@@ -69,5 +71,21 @@
                 
             </table>
         </div>
+        <script>
+            // Function to filter table based on search input
+            document.getElementById('searchInput').addEventListener('keyup', function() {
+                const input = this.value.toLowerCase();
+                const tableRows = document.querySelectorAll('#requestTableBody tr');
+    
+                tableRows.forEach(row => {
+                    const locationCell = row.cells[5].textContent.toLowerCase(); // Adjust index for the "State" or "District" column
+                    if (locationCell.includes(input)) {
+                        row.style.display = ''; // Show the row
+                    } else {
+                        row.style.display = 'none'; // Hide the row
+                    }
+                });
+            });
+        </script>
     </body>
 </html>

@@ -1,47 +1,71 @@
 /* General Styles */
 body {
-  font-family: Arial, sans-serif;
-  background-color: #e0f7fa;
-  color: #2c3e50;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #e9f5e9; /* Light forest green */
+  color: #2e4e1f; /* Dark green for text */
   margin: 0;
   padding: 20px;
-  text-align: center;
 }
 
 h1, h2 {
-  color: #2e7d32;
+  color: #155724; /* Darker green for headers */
+  margin-bottom: 15px;
+  text-align: center; /* Center aligned headings */
 }
 
+/* General Button Styles */
 button {
-  background-color: #4caf50;
+  background-color: #2e7d32;
   color: white;
   border: none;
-  padding: 10px 15px;
+  padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
-  margin: 10px;
+  margin-top: 10px;
+  width: auto; /* Default to automatic width */
+  display: inline-block; /* Inline to prevent full width */
+  text-align: center;
+  transition: background-color 0.3s ease-in-out, transform 0.2s;
+}
+
+button.request-survey {
+  width: 200px; /* Specific width for 'Request a Survey' button */
+  margin: 0 auto; /* Center the button horizontally */
 }
 
 button:hover {
-  background-color: #388e3c;
+  background-color: #1b5e20; /* Darker forest green */
+  transform: scale(1.05);
 }
 
 /* Form Styles */
 form {
-  margin: 20px auto;
-  padding: 20px;
-  background-color: #f9fbe7;
-  border: 1px solid #4caf50;
+  margin: 0 auto;
+  padding: 25px;
+  background-color: #ffffff; /* Light background for readability */
   border-radius: 10px;
-  width: 300px; /* Fixed width for consistency */
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Subtle shadow for depth */
+  border: 1px solid #2e7d32; /* Green border for the forest feel */
+  text-align: left; /* Align content left */
 }
 
 input, select, textarea {
-  width: calc(100% - 20px); /* Adjusted for padding */
+  width: 100%; /* Full width fields */
   padding: 10px;
   margin: 10px 0;
-  border: 1px solid #4caf50;
+  border: 1px solid #81c784; /* Soft green border */
   border-radius: 5px;
+  font-size: 16px;
+  box-sizing: border-box;
+  display: block;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: #43a047; /* Bright green on focus */
+  outline: none;
+  box-shadow: 0 0 6px rgba(67, 160, 71, 0.4); /* Green glow on focus */
 }
 
 /* Table Styles */
@@ -49,52 +73,95 @@ table {
   width: 90%;
   margin: 20px auto;
   border-collapse: collapse;
-  table-layout: auto;  /* Allow columns to resize based on content */
+  max-width: 1000px;
+  text-align: center; /* Centered table content */
 }
 
 th, td {
-  border: 1px solid #4caf50;
-  padding: 8px;
-  text-align: center;
+  padding: 12px;
+  border: 1px solid #4caf50; /* Forest green border */
 }
 
 th {
-  background-color: #81c784;
+  background-color: #2e7d32; /* Dark forest green for table header */
   color: white;
+}
+
+tr:nth-child(even) {
+  background-color: #e8f5e9; /* Light green background for alternate rows */
+}
+
+tr:hover {
+  background-color: #c8e6c9; /* Light forest green on hover */
 }
 
 /* Specific style for Notes column */
 td.notes {
-  white-space: pre-wrap;  /* Allows paragraphs and breaks */
-  text-align: left;       /* Align text to the left */
-  width: 400px;           /* Adjust width as needed */
-  word-wrap: break-word;  /* Ensures long words break to fit */
-  padding: 15px;          /* Add more padding for readability */
+  white-space: pre-wrap;
+  text-align: left;
+  word-wrap: break-word;
+  padding: 15px;
 }
 
-tr:nth-child(even) {
-  background-color: #f1f8e9;
-}
-
-tr:hover {
-  background-color: #dcedc8;
-}
-
-/* Center Alignment */
+/* Alignment Fixes */
 .center {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
+form input, form select, form textarea, form button {
+  text-align: left; /* Left align input text */
+}
+
+form label {
+  margin-bottom: 5px;
+  display: block;
+  font-weight: bold;
+  color: #155724; /* Darker green */
+}
+
+form button {
+  margin-top: 20px; /* More space above buttons */
+}
+
+table {
+  margin-top: 40px;
+}
+
 .top-right {
-    position: absolute;
-    top: 10px;
-    right: 20px;
+  position: absolute;
+  top: 10px;
+  right: 20px;
 }
 
 .top-left {
   position: absolute;
   top: 10px;
-  right: 20px;
+  left: 20px;
+}
+
+/* Navigation Smoothness */
+a {
+  color: #2e7d32; /* Forest green links */
+  text-decoration: none;
+  transition: color 0.3s ease-in-out;
+}
+
+a:hover {
+  color: #1b5e20; /* Darker green on hover */
+}
+
+input, select, textarea {
+  transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+/* Button Smoothness */
+button {
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Table transitions */
+table, th, td {
+  transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out;
 }
