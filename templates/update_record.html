@@ -5,6 +5,8 @@
     <link rel="stylesheet" href="/static/styles.css"/>
 </head>
 <body>
+    <div class="background"></div>
+
     <div class="top-left">
         <button onclick="location.href='{{url_for('admin_dashboard')}}'">Back</button>
     </div>
@@ -53,13 +55,13 @@
             </select><br>
             
             <label for="animal_count">Count of Animals: </label>
-            <input type="number" name="animal_count" id="animal_count" value="{{ animal.animal_count }}"/><br>
+            <input type="number" name="animal_count" id="animal_count" value="{{ animal.animal_count }}" min="0"/><br>
             
             <label for="survey_date">Surveyed Date: </label>
             <input type="date" name="survey_date" id="survey_date" value="{{ animal.survey_date }}" required/><br>
             
             <label for="surveyor_name">Name of the Surveyor: </label>
-            <input type="text" name="surveyor_name" id="surveyor_name" value="{{ animal.surveyor_name }}" pattern="^[a-zA-Z\s]+$" required/><br>
+            <input type="text" name="surveyor_name" id="surveyor_name" value="{{ animal.surveyor_name }}" pattern="^[a-zA-Z\s-]+$" required/><br>
                 
             <label for="status">Status of the Survey: </label>
             <select name="status" id="status">

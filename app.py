@@ -10,7 +10,7 @@ app.config['SECRET_KEY'] = 'allen_sam'
 app.config['SQLALCHEMY_DATABASE_URI'] = (
     'mssql+pyodbc:///?odbc_connect=' +
     'DRIVER={ODBC Driver 17 for SQL Server};'
-    'SERVER=DESKTOP-6OI45DP\\SQLEXPRESS;'
+    'SERVER=DESKTOP-NP4U7J0\\SQLEXPRESS;'
     'DATABASE=ut_project;'
     'Trusted_Connection=yes;'
 )

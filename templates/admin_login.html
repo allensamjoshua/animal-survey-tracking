@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="static/styles.css">
 </head>
 <body>
+    <div class="background"></div> <!-- Background Image Container -->
     <div class="top-left">
         <button onclick="location.href='{{url_for('home')}}'">Back</button>
     </div>
@@ -24,7 +25,6 @@
                 <a href="/admin/forgot">Forgot Password?</a>
             </div>
         </form>
-      
     </div>
     {% with messages = get_flashed_messages() %}
     {% if messages %}
@@ -34,6 +34,6 @@
             {% endfor %}
         </div>
     {% endif %}
-{% endwith %}
+    {% endwith %}
 </body>
 </html>

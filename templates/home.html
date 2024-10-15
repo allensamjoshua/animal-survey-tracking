@@ -1,25 +1,35 @@
 <!DOCTYPE HTML>
 <html>
-    <head>
-        <title>Home Page</title>
-        <link rel="stylesheet" href="/static/styles.css"/>
-    </head>
-    <body>
-        <div class="top-right">
+<head>
+    <title>Home Page</title>
+    <link rel="stylesheet" href="/static/styles1.css"/>
+</head>
+
+<body>
+    <!-- Background Image -->
+    <div class="background"></div>
+
+    <!-- Top-right Admin Button -->
+    <div class="top-right">
         <button onclick="location.href='{{url_for('admin_login')}}'">Admin</button>
-        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
         <label for="req_btn">Animal Sighting in your locality?</label>
         <button class="request-survey" id="req_btn" onclick="location.href='{{url_for('request_page')}}'">Request a Survey!</button>
+
         <div class="center">
             <div class="homepage-search">
                 <h1>Indian Wildlife Database</h1>
                 <form method="GET" action="{{ url_for('home') }}">
                     <label for="location-search">Search for a Location: </label>
-                    <input type="search" id="location-search" name="query" placeholder="Search for a Location(Ex:Tamil Nadu)" value="{{ request.args.get('query', '') }}" />
+                    <input type="search" id="location-search" name="query" placeholder="Search for a Location (Ex: Tamil Nadu)" pattern="^[a-zA-Z\s]+$" value="{{ request.args.get('query', '') }}" />
                     <button type="submit">Search</button><br>
                 </form>
             </div>
 
+            <!-- Search Results Section -->
             <div class="search-results">
                 {% if results %}
                     <h3>Search Results "{{ query }}"</h3>
@@ -57,16 +67,19 @@
                     <p>No results found for "{{ query }}".</p>
                 {% endif %}
             </div>
-                    <!-- Flash Messages -->
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            <div class="flash-messages">
-                {% for message in messages %}
-                    <div class="flash-message">{{ message }}</div>
-                {% endfor %}
-            </div>
-        {% endif %}
+
+            <!-- Flash Messages -->
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div class="flash-messages">
+        {% for message in messages %}
+            <div class="flash-message">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
     {% endwith %}
+
         </div>
-    </body>
+    </div>
+</body>
 </html>

@@ -1,28 +1,34 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>Request Page</title>
-        <link rel="stylesheet" href="/static/styles.css"/>
-    </head>
-    <body>
-        <div class="top-left">
-            <button onclick="location.href='{{url_for('home')}}'">Back</button>
-        </div>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request Page</title>
+    <link rel="stylesheet" href="/static/styles.css"/>
+</head>
+<body>
+    <div class="background"></div> <!-- Background image -->
+    <div class="top-left">
+        <button onclick="location.href='{{url_for('home')}}'">Back</button>
+    </div>
+    <div class="container">
+        <h2>Request Form</h2>
         <form method="POST">
             <label for="u_name">Your Name: </label>
-            <input type="text" name = "u_name" id= "u_name" placeholder="Your Name"/><br/>
+            <input type="text" name="u_name" id="u_name" placeholder="Your Name" pattern="^[a-zA-Z\s-]+$" required/><br/>
 
             <label for="ph_no">Phone Number: </label>
-            <input type="number" name = "ph_no" id= "ph_no" placeholder="Your Phone Number"/><br/>
+            <input type="number" name="ph_no" id="ph_no" placeholder="Your Phone Number" pattern="^\d{10}$" required/><br/>
 
             <label for="email">Your Email ID: </label>
-            <input type="email" name = "email" id= "email" placeholder="Your Email Id"/><br/>
+            <input type="email" name="email" id="email" placeholder="Your Email Id" required/><br/>
 
             <label for="dist">District: </label>
-            <input type="text" name = "dist" id= "dist" placeholder="Your District"/><br/>
+            <input type="text" name="dist" id="dist" placeholder="Your District" pattern="^[a-zA-Z\s]+$" required/><br/>
 
             <label for="state">State:</label>
-            <select name="state" id="state">
+            <select name="state" id="state" required>
+                <option value="" disabled selected>Select your state</option>
                 <option value="Andhra Pradesh">Andhra Pradesh</option>
                 <option value="Arunachal Pradesh">Arunachal Pradesh</option>
                 <option value="Assam">Assam</option>
@@ -53,10 +59,11 @@
                 <option value="West Bengal">West Bengal</option>
             </select><br>
 
-            <label for="details">Details </label>
-            <textarea name="details" id="details" rows="5" cols="50"></textarea><br>
+            <label for="details">Details: </label>
+            <textarea name="details" id="details" rows="5" cols="50" required></textarea><br>
+            
             <button type="submit">Submit Request</button>
-
         </form>
-    </body>
+    </div>
+</body>
 </html>

@@ -1,16 +1,35 @@
 /* General Styles */
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #e9f5e9; /* Light forest green */
-  color: #2e4e1f; /* Dark green for text */
+  color: #152b0b; /* Dark green for text */
   margin: 0;
   padding: 20px;
+  position: relative; /* Position for the background */
+  height: 100vh; /* Full viewport height */
 }
 
-h1, h2 {
-  color: #155724; /* Darker green for headers */
+/* Background image container */
+.background {
+  position: fixed; /* Use fixed to ensure it stays in place during scrolling */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('/static/aerial-view-green-forest.jpg') center center/cover no-repeat;
+  filter: blur(8px); /* Blur applied to the background */
+  z-index: -1; /* Send background behind content */
+}
+
+h1, h2{
+  color: #98f485; /* Darker green for headers */
   margin-bottom: 15px;
   text-align: center; /* Center aligned headings */
+}
+
+.notes, p{
+  color: white;
+  margin-bottom: 15px;
+  text-align: justify;
 }
 
 /* General Button Styles */
@@ -42,7 +61,7 @@ button:hover {
 form {
   margin: 0 auto;
   padding: 25px;
-  background-color: #ffffff; /* Light background for readability */
+  background-color: rgba(255, 255, 255, 0.9); /* Light background for readability with slight transparency */
   border-radius: 10px;
   width: 90%;
   max-width: 400px;
@@ -69,6 +88,7 @@ input:focus, select:focus, textarea:focus {
 }
 
 /* Table Styles */
+/* Table Styles */
 table {
   width: 90%;
   margin: 20px auto;
@@ -87,12 +107,18 @@ th {
   color: white;
 }
 
-tr:nth-child(even) {
-  background-color: #e8f5e9; /* Light green background for alternate rows */
+/* Set background color for odd and even rows */
+tr:nth-child(odd) {
+  background-color: #c8e6c9; /* Light green for odd rows */
 }
 
+tr:nth-child(even) {
+  background-color: #e8f5e9; /* Light green background for even rows */
+}
+
+/* Table hover effect for all rows */
 tr:hover {
-  background-color: #c8e6c9; /* Light forest green on hover */
+  background-color: #a5d6a7; /* Darker green on hover */
 }
 
 /* Specific style for Notes column */
@@ -102,6 +128,7 @@ td.notes {
   word-wrap: break-word;
   padding: 15px;
 }
+
 
 /* Alignment Fixes */
 .center {
