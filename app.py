@@ -61,7 +61,7 @@ def home():
     return render_template("home.html", results=results, query=query)
 
 #View Report Page
-@app.route('/report/<int:survey_id>', methods=['GET'])
+@app.route('/report/<int:survey_id>', methods=['GET']) #dynamic url
 def view_report(survey_id):
     survey = AnimalSurvey.query.get_or_404(survey_id)  # Get survey by ID or return 404 if not found
     return render_template('report.html', survey=survey)
@@ -89,7 +89,6 @@ def request_page():
 
         db.session.add(insert_qry)
         db.session.commit()
-        session['sending'] = insert_qry.req_id
         flash("Request Sent! We will get back to you shortly!")
         return redirect(url_for("home"))
 
@@ -229,7 +228,7 @@ def completed_survey(req_id, email):
                 sender_password = "qbhu pwzo fnxg ydyh"  # Gmail app password
 
                 msg = EmailMessage()
-                msg.set_content(f"Hello Solider, We received your survey request and we are glad to accept your request and conduct the survey. Kindly check our website for the survey of your request!")
+                msg.set_content(f"Hello, We received your survey request and we are glad to accept your request and conduct the survey. Kindly check our website for the survey of your request!")
                 msg['Subject'] = "Survey Conducted"
                 msg['From'] = sender_email
                 msg['To'] = receiver_email
@@ -261,7 +260,7 @@ def decline_survey(req_id, email):
                 sender_password = "qbhu pwzo fnxg ydyh"  # Gmail app password
 
                 msg = EmailMessage()
-                msg.set_content(f"Hello Solider, We recieved your survey request but unfortunately we cannot move on with your request. Thank you for contacting us!")
+                msg.set_content(f"Hello, We recieved your survey request but unfortunately we cannot move on with your request. Thank you for contacting us!")
                 msg['Subject'] = "Survey Request Declined"
                 msg['From'] = sender_email
                 msg['To'] = receiver_email

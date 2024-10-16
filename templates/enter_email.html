@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
+    <div class="background"></div> <!-- Background image -->
+
     <div class="top-left">
         <button onclick="location.href='{{url_for('admin_login')}}'">Back</button>
     </div>
@@ -17,6 +19,16 @@
             <input type="email" id="email" name="email" required>
             <button type="submit">Send OTP</button>
         </form>
+                    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div class="flash-messages">
+        {% for message in messages %}
+            <div class="flash-message">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
     </div>
 </body>
 </html>
